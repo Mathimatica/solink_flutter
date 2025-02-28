@@ -1,5 +1,7 @@
 
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:solink_flutter/network/api_result.dart';
 import 'package:solink_flutter/network/data/photo_response.dart';
@@ -43,7 +45,9 @@ class UserViewModel with ChangeNotifier {
       notifyListeners();
       return;
     } else if (photoResult case APISuccess<PhotoResponse> photoSuccess){ 
-      _state = Success((name: userSuccess.data.name, imageUrl: photoSuccess.data.photos.first.src.original));
+      final random = Random();
+      Photo randomPhoto = photoSuccess.data.photos[random.nextInt(photoSuccess.data.photos.length)];
+      _state = Success((name: userSuccess.data.name, imageUrl: randomPhoto.src.original));
       notifyListeners();
     }
     }
