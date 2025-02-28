@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solink_flutter/ui/state_holder/state_holder.dart';
@@ -25,17 +26,25 @@ class UserScreen extends StatelessWidget {
                 case Error(message: final message):
                   return Text('Error: $message');
                 case Success(data: final data):
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  return Column(mainAxisAlignment: MainAxisAlignment.center, 
+                  crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Name: ${data.name}'),
+                      Text('Name: ${data.name}', style: Theme.of(context).textTheme.headlineLarge),
                       SizedBox(height: 20),
-                      Text('Photo URL: ${data.name}'),
-                      // Optionally display the image: Image.network(data.photoUrl),
-                    ],
-                  );
-              }
-            },
+                      ClipOval(child: SizedBox(width: 200, height: 200, child: CachedNetworkImage(
+                        fadeInDuration: Duration(milliseconds: 250), fadeOutDuration: Duration(milliseconds: 250),
+            imageUrl: data.imageUrl,
+            placeholder: (context, url) => Image.asset(
+              'assets/placeholder_profile_image.jpg',
+              fit: BoxFit.cover,
+            ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            fit: BoxFit.cover,
+            ),
+          )),
+          ],);
+          }
+          },
           ),
         ),
       ),
