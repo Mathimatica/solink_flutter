@@ -30,7 +30,7 @@ class UserScreen extends StatelessWidget {
                     children: [
                       Text('Name: ${data.name}'),
                       SizedBox(height: 20),
-                      // Text('Photo URL: ${data.photoUrl}'),
+                      Text('Photo URL: ${data.name}'),
                       // Optionally display the image: Image.network(data.photoUrl),
                     ],
                   );
