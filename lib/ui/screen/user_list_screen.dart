@@ -23,7 +23,7 @@ class UserListScreen extends StatelessWidget {
           (_) =>
               UserListViewModel(pageNum: getRandomNumber(1, 10), pagePer: 50),
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(title: const Text('Solink Flutter Demo')),
         body: Center(
           child: Consumer<UserListViewModel>(
             builder: (context, provider, child) {
@@ -50,18 +50,28 @@ class UserListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: stateHolder.users.length,
-      itemBuilder: (context, index) {
-        final user = stateHolder.users[index];
-        return UserListItemView(
-          stateHolder: user,
-          onClick: (photo) {
-            // Navigate to the user screen using the custom route
-            Navigator.push(context, UserRoute(name: photo.photographer, imageUrl: photo.src.original));
-          },
-        );
-      },
+    return Padding(
+      // Add Padding widget
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ListView.builder(
+        itemCount: stateHolder.users.length,
+        itemBuilder: (context, index) {
+          final user = stateHolder.users[index];
+          return UserListItemView(
+            stateHolder: user,
+            onClick: (photo) {
+              // Navigate to the user screen using the custom route
+              Navigator.push(
+                context,
+                UserRoute(
+                  name: photo.photographer,
+                  imageUrl: photo.src.original,
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
@@ -79,6 +89,9 @@ class UserListItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: const Color(0xFF0288D1), // Set the card's background color
+      shadowColor: const Color(0xFF01579B), // Set the card's shadow color
+      elevation: 4.0,
       child: InkWell(
         // Use InkWell for tap functionality
         onTap: () {
@@ -92,7 +105,9 @@ class UserListItemView extends StatelessWidget {
                 // Use Expanded to allow Text to take available space
                 child: Text(
                   stateHolder.name,
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.white, // Set the text color to white
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
