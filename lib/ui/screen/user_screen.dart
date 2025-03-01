@@ -1,50 +1,119 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:solink_flutter/ui/state_holder/state_holder.dart';
-import 'package:solink_flutter/view_model/user_view_model.dart';
+import 'package:solink_flutter/ui/view/sl_button.dart';
 
 class UserScreen extends StatelessWidget {
-  final int userId;
-  final int pageNum;
-  final int pagePer;
+  final String name;
+  final String imageUrl;
 
-  const UserScreen({super.key, required this.userId, required this.pageNum, required this.pagePer});
+  const UserScreen({super.key, required this.name, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => UserViewModel(userId: userId, pageNum: pageNum, pagePer: pagePer),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: Consumer<UserViewModel>(
-            builder: (context, provider, child) {
-              switch (provider.state) {
-                case Loading():
-                  return CircularProgressIndicator();
-                case Error(message: final message):
-                  return Text('Error: $message');
-                case Success(data: final data):
-                  return Column(mainAxisAlignment: MainAxisAlignment.center, 
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Name: ${data.name}', style: Theme.of(context).textTheme.headlineLarge),
-                      SizedBox(height: 20),
-                      ClipOval(child: SizedBox(width: 200, height: 200, child: CachedNetworkImage(
-                        fadeInDuration: Duration(milliseconds: 250), fadeOutDuration: Duration(milliseconds: 250),
-            imageUrl: data.imageUrl,
-            placeholder: (context, url) => Image.asset(
-              'assets/placeholder_profile_image.jpg',
-              fit: BoxFit.cover,
+    return UserProfileView(name: name, imageUrl: imageUrl);
+  }
+}
+
+class UserProfileView extends StatelessWidget {
+  final String name;
+  final String imageUrl;
+
+  const UserProfileView({
+    super.key,
+    required this.name,
+    required this.imageUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBodyBehindAppBar: true, // Add this line
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: SLButton(
+            onClick: () {
+              Navigator.pop(context); // Navigate back
+            },
+          ),
+        ),
+      ),
+      body: Center(
+        // Only Center is used here
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // Add this
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('$name', style: Theme.of(context).textTheme.headlineLarge),
+            const SizedBox(height: 20),
+            ClipOval(
+              child: SizedBox(
+                width: 200,
+                height: 200,
+                child: CachedNetworkImage(
+                  fadeInDuration: const Duration(milliseconds: 250),
+                  fadeOutDuration: const Duration(milliseconds: 250),
+                  imageUrl: imageUrl,
+                  placeholder:
+                      (context, url) => Image.asset(
+                        'assets/placeholder_profile_image.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-            fit: BoxFit.cover,
-            ),
-          )),
-          ],);
-          }
-          },
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Separate widget for the user profile information
+class UserProfileInfo extends StatelessWidget {
+  final String name;
+  final String imageUrl;
+
+  const UserProfileInfo({
+    super.key,
+    required this.name,
+    required this.imageUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      // Wrap with SafeArea
+      child: Center(
+        child: Expanded(
+          // Wrap the Column with Expanded
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('$name', style: Theme.of(context).textTheme.headlineLarge),
+              const SizedBox(height: 20),
+              ClipOval(
+                child: SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: CachedNetworkImage(
+                    fadeInDuration: const Duration(milliseconds: 250),
+                    fadeOutDuration: const Duration(milliseconds: 250),
+                    imageUrl: imageUrl,
+                    placeholder:
+                        (context, url) => Image.asset(
+                          'assets/placeholder_profile_image.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                    errorWidget:
+                        (context, url, error) => const Icon(Icons.error),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

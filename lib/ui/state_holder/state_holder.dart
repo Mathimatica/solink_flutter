@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:solink_flutter/network/data/photo_response.dart';
+
 sealed class StateHolder<T> {
   const StateHolder();
 }
@@ -17,3 +20,13 @@ class Error extends StateHolder<Never> {
 }
 
 typedef UserStateHolder = ({String name, String imageUrl});
+
+typedef UserListItemStateHolder = ({
+  String name,
+  String imageUrl,
+  void Function(void Function(Photo) onClick) processOnClick,
+});
+
+typedef UserListStateHolder = ({
+  List<UserListItemStateHolder> users,
+});

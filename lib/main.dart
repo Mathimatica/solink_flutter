@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:solink_flutter/ui/screen/home_screen.dart';
+import 'package:solink_flutter/ui/screen/user_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
       ),
-      home: const HomeScreen(),
+      home: const UserListScreen(),
     );
   }
 }
