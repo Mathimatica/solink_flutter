@@ -1,9 +1,10 @@
 import 'package:solink_flutter/network/api_result.dart';
 import 'package:solink_flutter/network/data/photo_response.dart';
 import 'package:solink_flutter/network/service/photo_service.dart';
+import 'package:solink_flutter/network/service/server_locator.dart';
 
 class PhotoRepository {
-  final PhotoService apiService = PhotoService();
+  final PhotoService apiService = locator<PhotoService>(); 
 
   PhotoRepository();
 

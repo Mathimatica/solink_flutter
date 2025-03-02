@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:solink_flutter/network/data/photo_response.dart';
 
 sealed class StateHolder<T> {

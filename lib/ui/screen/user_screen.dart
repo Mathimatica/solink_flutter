@@ -44,7 +44,7 @@ class UserProfileView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min, // Add this
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('$name', style: Theme.of(context).textTheme.headlineLarge, textAlign: TextAlign.center),
+            Text(name, style: Theme.of(context).textTheme.headlineLarge, textAlign: TextAlign.center),
             const SizedBox(height: 20),
             ClipOval(
               child: SizedBox(
@@ -92,7 +92,7 @@ class UserProfileInfo extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('$name', style: Theme.of(context).textTheme.headlineLarge),
+              Text(name, style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: 20),
               ClipOval(
                 child: SizedBox(

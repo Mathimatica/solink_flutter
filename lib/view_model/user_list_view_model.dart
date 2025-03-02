@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solink_flutter/network/api_result.dart';
 import 'package:solink_flutter/network/data/photo_response.dart';
+import 'package:solink_flutter/network/service/server_locator.dart';
 import 'package:solink_flutter/repository/photo_repository.dart';
 import 'package:solink_flutter/repository/user_repository.dart';
 import 'package:solink_flutter/ui/screen/user_screen.dart';
@@ -18,8 +19,8 @@ class UserListViewModel with ChangeNotifier {
   StateHolder<UserListStateHolder> _state = const Loading();
   StateHolder<UserListStateHolder> get state => _state;
 
-  final UserRepository userRepository = UserRepository();
-  final PhotoRepository photoRepository = PhotoRepository();
+  final UserRepository userRepository = locator<UserRepository>(); 
+  final PhotoRepository photoRepository = locator<PhotoRepository>(); 
   final int pageNum;
   final int pagePer;
 

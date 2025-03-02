@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:solink_flutter/deep_link_handler.dart';
 import 'package:solink_flutter/network/data/photo_response.dart';
+import 'package:solink_flutter/network/service/server_locator.dart';
 import 'package:solink_flutter/ui/state_holder/state_holder.dart';
 
 import 'dart:math';
@@ -20,8 +22,7 @@ class UserListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create:
-          (_) =>
-              UserListViewModel(pageNum: getRandomNumber(1, 10), pagePer: 50),
+          (_) => locator.get<UserListViewModel>(param1: getRandomNumber(1, 10), param2: 50),
       child: Scaffold(
         appBar: AppBar(title: const Text('Solink Flutter Demo')),
         body: Center(
@@ -60,14 +61,10 @@ class UserListView extends StatelessWidget {
           return UserListItemView(
             stateHolder: user,
             onClick: (photo) {
-              // Navigate to the user screen using the custom route
-              Navigator.push(
-                context,
-                UserRoute(
-                  name: photo.photographer,
-                  imageUrl: photo.src.original,
-                ),
-              );
+                final name = Uri.encodeComponent(photo.photographer); // Encode the name
+                final imageUrl = Uri.encodeComponent(photo.src.original); // Encode the image URL
+                final deepLinkUrl = 'com.example.solinkflutter://user?name=$name&imageUrl=$imageUrl';
+                sendDeepLink(deepLinkUrl);
             },
           );
         },
